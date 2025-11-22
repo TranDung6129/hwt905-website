@@ -1,0 +1,102 @@
+# GIAI ĐOẠN 7: DOCKER COMPOSE FOR LOCAL DEVELOPMENT
+# Full-stack development với containers
+
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:6.0
+    container_name: sensor-dashboard-db
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: sensor-dashboard
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - sensor-dashboard-network
+
+  # Backend API
+  backend:
+    build:
+      context: ../stage4-backend
+      dockerfile: Dockerfile
+    container_name: sensor-dashboard-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/sensor-dashboard?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-in-production-2024}
+      JWT_EXPIRES_IN: 7d
+      CORS_ORIGIN: https://your-frontend-domain.vercel.app
+      MQTT_BROKER_URL: ${MQTT_BROKER_URL:-mqtt://localhost:1883}
+      MQTT_TOPIC: ${MQTT_TOPIC:-sensor/data/#}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - sensor-dashboard-network
+
+  # Frontend React App
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:5000
+        REACT_APP_NAME: IoT Sensor Dashboard
+    container_name: sensor-dashboard-frontend
+    restart: unless-stopped
+    environment:
+      BACKEND_URL: http://backend:5000
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - sensor-dashboard-network
+
+  # MQTT Broker (for testing)
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: sensor-dashboard-mqtt
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - sensor-dashboard-network
+
+  # Redis (for session management - optional)
+  redis:
+    image: redis:7-alpine
+    container_name: sensor-dashboard-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis123}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - sensor-dashboard-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  sensor-dashboard-network:
+    driver: bridge

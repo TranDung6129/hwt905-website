@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiSHM - Giám sát sức khỏe công trình</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>Dashboard</h1>
+        </div>
+        <div class="navbar-menu">
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="user-info">
+                <span class="welcome-text">Chào mừng, <strong>Admin</strong></span>
+                <button class="btn btn-secondary">Đăng xuất</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="layout-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Điều hướng</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#dashboard" class="nav-link">
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#charts" class="nav-link">
+                            <span class="nav-text">Biểu đồ</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#history" class="nav-link">
+                            <span class="nav-text">Lịch sử</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings" class="nav-link">
+                            <span class="nav-text">Cài đặt</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="connection-status">
+                    <div class="status-indicator online"></div>
+                    <span class="status-text">Đã kết nối</span>
+                </div>
+                <div class="version-info">v1.0.0</div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Status Bar -->
+            <section class="status-bar">
+                <div class="connection-info">
+                    <div class="status-dot online"></div>
+                    <span>Real-time: Đang hoạt động</span>
+                </div>
+                <div class="last-update">
+                    <span>Cập nhật cuối: 14:30:25 - 15/11/2024</span>
+                </div>
+                <button class="btn btn-primary">Làm mới</button>
+            </section>
+
+            <!-- Data Cards -->
+            <section class="data-overview">
+                <h2 class="section-title">Thông số hiện tại</h2>
+                <div class="data-cards">
+                    <div class="data-card temperature">
+                        <div class="card-header">
+                            <h3>Nhiệt độ</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="value">25.8</div>
+                            <div class="unit">°C</div>
+                        </div>
+                        <div class="card-footer">
+                            <span class="trend positive">+0.5°C so với trước</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card humidity">
+                        <div class="card-header">
+                            <h3>Độ ẩm</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="value">62.3</div>
+                            <div class="unit">%</div>
+                        </div>
+                        <div class="card-footer">
+                            <span class="trend negative">-1.2% so với trước</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card pressure">
+                        <div class="card-header">
+                            <h3>Áp suất</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="value">1013.2</div>
+                            <div class="unit">hPa</div>
+                        </div>
+                        <div class="card-footer">
+                            <span class="trend neutral">Ổn định</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card light">
+                        <div class="card-header">
+                            <h3>Ánh sáng</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="value">845</div>
+                            <div class="unit">lux</div>
+                        </div>
+                        <div class="card-footer">
+                            <span class="trend positive">+120 lux so với trước</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chart Section -->
+            <section class="chart-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>Biểu đồ theo dõi (24h gần nhất)</h2>
+                        <div class="chart-controls">
+                            <select class="time-range">
+                                <option value="24h">24 giờ</option>
+                                <option value="7d">7 ngày</option>
+                                <option value="30d">30 ngày</option>
+                            </select>
+                            <button class="btn btn-secondary">Xuất dữ liệu</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <div class="chart-mock">
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color temperature-color"></div>
+                                    <span>Nhiệt độ (°C)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color humidity-color"></div>
+                                    <span>Độ ẩm (%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color pressure-color"></div>
+                                    <span>Áp suất (hPa)</span>
+                                </div>
+                            </div>
+                            <div class="chart-area">
+                                <p>Biểu đồ sẽ hiển thị ở đây</p>
+                                <small>Giai đoạn 3 sẽ tích hợp thư viện biểu đồ</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Table -->
+            <section class="history-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Lịch sử dữ liệu</h2>
+                        <div class="table-controls">
+                            <input type="date" class="date-filter" value="2024-11-15">
+                            <select class="limit-select">
+                                <option value="50">50 dòng</option>
+                                <option value="100">100 dòng</option>
+                                <option value="200">200 dòng</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Nhiệt độ (°C)</th>
+                                    <th>Độ ẩm (%)</th>
+                                    <th>Áp suất (hPa)</th>
+                                    <th>Ánh sáng (lux)</th>
+                                    <th>Thiết bị</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15/11/2024 14:30:25</td>
+                                    <td>25.8</td>
+                                    <td>62.3</td>
+                                    <td>1013.2</td>
+                                    <td>845</td>
+                                    <td>RaspberryPi-001</td>
+                                </tr>
+                                <tr>
+                                    <td>15/11/2024 14:25:25</td>
+                                    <td>25.3</td>
+                                    <td>63.5</td>
+                                    <td>1013.0</td>
+                                    <td>725</td>
+                                    <td>RaspberryPi-001</td>
+                                </tr>
+                                <tr>
+                                    <td>15/11/2024 14:20:25</td>
+                                    <td>25.1</td>
+                                    <td>64.1</td>
+                                    <td>1012.8</td>
+                                    <td>680</td>
+                                    <td>RaspberryPi-001</td>
+                                </tr>
+                                <tr>
+                                    <td>15/11/2024 14:15:25</td>
+                                    <td>24.9</td>
+                                    <td>65.0</td>
+                                    <td>1012.5</td>
+                                    <td>642</td>
+                                    <td>RaspberryPi-001</td>
+                                </tr>
+                                <tr>
+                                    <td>15/11/2024 14:10:25</td>
+                                    <td>24.7</td>
+                                    <td>65.8</td>
+                                    <td>1012.2</td>
+                                    <td>598</td>
+                                    <td>RaspberryPi-001</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="pagination-info">
+                            <span>Hiển thị 1-5 của 1,250 bản ghi</span>
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="btn btn-secondary" disabled>Trước</button>
+                            <span class="page-info">Trang 1 / 250</span>
+                            <button class="btn btn-secondary">Tiếp</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>Sensor Dashboard - Hệ thống giám sát IoT</p>
+                <p>Phiên bản 1.0.0 - Cập nhật: 15/11/2024</p>
+            </div>
+            <div class="footer-links">
+                <a href="#help">Hướng dẫn</a>
+                <a href="#support">Hỗ trợ</a>
+                <a href="#about">Về chúng tôi</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

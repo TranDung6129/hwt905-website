@@ -1,0 +1,76 @@
+# GIAI ĐOẠN 7: RENDER.COM DEPLOYMENT CONFIGURATION
+# Infrastructure as Code for full-stack deployment
+
+services:
+  # Backend API Service
+  - type: web
+    name: iot-sensor-dashboard-backend
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    repo: https://github.com/your-username/your-repo.git
+    rootDir: stage4-backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: MONGODB_URI
+        fromDatabase:
+          name: iot-sensor-dashboard-db
+          property: connectionString
+      - key: CORS_ORIGIN
+        value: https://your-frontend.vercel.app
+      - key: MQTT_BROKER_URL
+        value: mqtt://your-mqtt-broker:1883
+      - key: MQTT_TOPIC
+        value: sensor/data/#
+    healthCheckPath: /health
+    domains:
+      - iot-sensor-dashboard-api.onrender.com
+
+  # Frontend Static Site (Alternative to Vercel)
+  - type: web
+    name: iot-sensor-dashboard-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./build
+    pullRequestPreviewsEnabled: true
+    repo: https://github.com/your-username/your-repo.git
+    rootDir: stage7-deploy
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://iot-sensor-dashboard-api.onrender.com
+      - key: REACT_APP_NAME
+        value: IoT Sensor Dashboard
+      - key: REACT_APP_ENV
+        value: production
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /static/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    domains:
+      - iot-sensor-dashboard.onrender.com
+
+databases:
+  # MongoDB Database
+  - name: iot-sensor-dashboard-db
+    databaseName: sensor_dashboard
+    user: dashboard_user
+    plan: starter

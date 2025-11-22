@@ -1,0 +1,142 @@
+# GIAI ĐOẠN 7: FRONTEND CI/CD PIPELINE
+# Auto-deploy to Vercel on push to main
+
+name: Deploy Frontend to Vercel
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'stage7-deploy/**'
+      - '.github/workflows/deploy-frontend.yml'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'stage7-deploy/**'
+
+env:
+  NODE_VERSION: '18'
+  WORKING_DIRECTORY: './stage7-deploy'
+
+jobs:
+  # Job 1: Build and Test
+  build-and-test:
+    name: Build and Test Frontend
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci
+
+      - name: Lint code
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm run lint --if-present || echo "No lint script found"
+
+      - name: Run tests
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm test -- --coverage --watchAll=false --passWithNoTests
+        env:
+          CI: true
+
+      - name: Build application
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm run build
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL || 'https://iot-sensor-dashboard-api.onrender.com' }}
+          REACT_APP_NAME: 'IoT Sensor Dashboard'
+          REACT_APP_ENV: production
+          GENERATE_SOURCEMAP: false
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: ${{ env.WORKING_DIRECTORY }}/build/
+          retention-days: 1
+
+  # Job 2: Security scan
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci
+
+      - name: Run security audit
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm audit --audit-level=moderate
+
+      - name: Check for vulnerabilities
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npx audit-ci --config .audit-ci.json || echo "Audit completed with warnings"
+
+  # Job 3: Deploy to Vercel
+  deploy-vercel:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: [build-and-test, security-scan]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: ${{ env.WORKING_DIRECTORY }}/build/
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+          vercel-args: '--prod'
+        env:
+          VERCEL_ENV: production
+
+  # Job 4: Notify deployment status
+  notify:
+    name: Notify Deployment Status
+    runs-on: ubuntu-latest
+    needs: [deploy-vercel]
+    if: always()
+    
+    steps:
+      - name: Notify success
+        if: needs.deploy-vercel.result == 'success'
+        run: |
+          echo "✅ Frontend deployed successfully to Vercel!"
+          echo "🌐 URL: Will be available in Vercel dashboard"
+
+      - name: Notify failure
+        if: needs.deploy-vercel.result == 'failure'
+        run: |
+          echo "❌ Frontend deployment failed!"
+          echo "Check the logs above for details."
+          exit 1

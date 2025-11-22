@@ -1,0 +1,14 @@
+{
+  "allowlist": [],
+  "report-type": "summary",
+  "pass-enoaudit": true,
+  "show-found": true,
+  "show-not-found": false,
+  "registry": "https://registry.npmjs.org/",
+  "advisories": [],
+  "whitelist": [],
+  "modules": [],
+  "moderate": true,
+  "high": true,
+  "critical": true
+}

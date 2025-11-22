@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Sensor Dashboard</title>
+    <link rel="stylesheet" href="login-style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Sensor Dashboard</h1>
+                <p>Hệ thống giám sát IoT</p>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập hoặc Email</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-input"
+                        placeholder="Nhập tên đăng nhập hoặc email"
+                        required
+                    >
+                    <div class="error-message" id="usernameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input"
+                        placeholder="Nhập mật khẩu"
+                        required
+                    >
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        Ghi nhớ đăng nhập
+                    </label>
+                    <a href="#forgot-password" class="forgot-link">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="login-button">
+                    Đăng nhập
+                </button>
+
+                <div class="form-divider">
+                    <span>hoặc</span>
+                </div>
+
+                <div class="register-section">
+                    <p>Chưa có tài khoản?</p>
+                    <a href="#register" class="register-link">Đăng ký ngay</a>
+                </div>
+            </form>
+
+            <!-- Register Form (Hidden by default) -->
+            <form class="register-form" id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label for="regUsername">Tên đăng nhập</label>
+                    <input 
+                        type="text" 
+                        id="regUsername" 
+                        name="username" 
+                        class="form-input"
+                        placeholder="Nhập tên đăng nhập (3-20 ký tự)"
+                        required
+                    >
+                    <div class="error-message" id="regUsernameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input"
+                        placeholder="Nhập địa chỉ email"
+                        required
+                    >
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="regPassword">Mật khẩu</label>
+                    <input 
+                        type="password" 
+                        id="regPassword" 
+                        name="password" 
+                        class="form-input"
+                        placeholder="Nhập mật khẩu (ít nhất 6 ký tự)"
+                        required
+                    >
+                    <div class="error-message" id="regPasswordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        class="form-input"
+                        placeholder="Nhập lại mật khẩu"
+                        required
+                    >
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <span class="checkmark"></span>
+                        Tôi đồng ý với <a href="#terms">Điều khoản sử dụng</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="register-button">
+                    Đăng ký
+                </button>
+
+                <div class="form-divider">
+                    <span>đã có tài khoản?</span>
+                </div>
+
+                <div class="login-section">
+                    <a href="#login" class="back-to-login">Đăng nhập</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="login-footer">
+            <p>&copy; 2024 Sensor Dashboard. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="message-overlay" id="messageOverlay">
+        <div class="message-box">
+            <div class="message-content" id="messageContent"></div>
+            <button class="close-message" id="closeMessage">Đóng</button>
+        </div>
+    </div>
+</body>
+</html>
