@@ -1,4 +1,4 @@
-# 🌐 IoT Sensor Dashboard - Phiên bản Hoàn chỉnh
+# IoT Sensor Dashboard - Phiên bản Hoàn chỉnh
 
 Website hoàn chỉnh cho hệ thống giám sát IoT Sensor với đầy đủ tính năng:
 - ✅ React Frontend với real-time WebSocket
@@ -8,7 +8,7 @@ Website hoàn chỉnh cho hệ thống giám sát IoT Sensor với đầy đủ 
 - ✅ MQTT Integration cho IoT devices
 - ✅ Real-time data streaming
 
-## 📁 Cấu trúc Dự án
+## Cấu trúc Dự án
 
 ```
 final/
@@ -33,7 +33,7 @@ final/
     └── server.js     # Main server file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Backend Setup
 
@@ -77,7 +77,7 @@ npm start
 
 Frontend sẽ chạy tại: `http://localhost:3000`
 
-## 🔧 Cấu hình Môi trường
+## Cấu hình Môi trường
 
 ### Backend (.env)
 
@@ -105,28 +105,28 @@ MQTT_CLIENT_ID=sensor-dashboard-server
 REACT_APP_API_URL=http://localhost:5000
 ```
 
-## 📋 Tính năng
+## Tính năng
 
 ### Frontend
-- ✅ Dashboard với real-time sensor data
-- ✅ Biểu đồ dữ liệu (24h, 7d)
-- ✅ Lịch sử dữ liệu với pagination
-- ✅ Authentication (Login/Register)
-- ✅ Protected routes với role-based access
-- ✅ Real-time WebSocket connection
-- ✅ Notification system
-- ✅ Responsive design
+- Dashboard với real-time sensor data
+- Biểu đồ dữ liệu (24h, 7d)
+- Lịch sử dữ liệu với pagination
+- Authentication (Login/Register)
+- Protected routes với role-based access
+- Real-time WebSocket connection
+- Notification system
+- Responsive design
 
 ### Backend
-- ✅ REST API endpoints
-- ✅ JWT Authentication
-- ✅ User management với roles (user, operator, admin)
-- ✅ MQTT service cho IoT data collection
-- ✅ Socket.IO cho real-time communication
-- ✅ MongoDB data storage
-- ✅ Error handling & logging
+- REST API endpoints
+- JWT Authentication
+- User management với roles (user, operator, admin)
+- MQTT service cho IoT data collection
+- Socket.IO cho real-time communication
+- MongoDB data storage
+- Error handling & logging
 
-## 🔐 Authentication
+## Authentication
 
 ### Đăng ký User mới
 ```bash
@@ -154,7 +154,7 @@ Tất cả protected routes yêu cầu header:
 Authorization: Bearer <token>
 ```
 
-## 📡 MQTT Integration
+## MQTT Integration
 
 Backend tự động lắng nghe MQTT messages từ topic: `sensor/data`
 
@@ -170,7 +170,7 @@ Format message:
 }
 ```
 
-## 🔌 WebSocket Real-time
+## WebSocket Real-time
 
 Frontend tự động kết nối WebSocket khi user đăng nhập.
 
@@ -180,7 +180,7 @@ Events:
 - `system:alert` - System alerts
 - `status:update` - Connection statistics
 
-## 📊 API Endpoints
+## API Endpoints
 
 ### Sensor Data
 - `GET /api/sensors/latest` - Lấy dữ liệu mới nhất
@@ -197,7 +197,7 @@ Events:
 - `POST /api/auth/refresh` - Refresh token
 - `POST /api/auth/logout` - Đăng xuất
 
-## 🛠️ Development
+## Development
 
 ### Backend Scripts
 ```bash
@@ -212,7 +212,7 @@ npm run build   # Build production
 npm test        # Run tests
 ```
 
-## 📦 Dependencies
+## Dependencies
 
 ### Backend
 - express - Web framework
@@ -232,7 +232,7 @@ npm test        # Run tests
 - socket.io-client - WebSocket client
 - recharts - Charts library
 
-## 🚀 Deployment
+## Deployment
 
 ### Backend
 1. Set environment variables trên hosting platform
@@ -244,7 +244,7 @@ npm test        # Run tests
 2. Deploy `build/` folder lên Netlify, Vercel, hoặc static hosting
 3. Set `REACT_APP_API_URL` environment variable
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Lỗi: "Không thể kết nối server authentication"
 
@@ -260,8 +260,8 @@ npm test        # Run tests
    
    Bạn sẽ thấy thông báo:
    ```
-   🎉 SERVER ĐÃ KHỞI ĐỘNG THÀNH CÔNG!
-   📍 URL: http://localhost:5000
+   SERVER ĐÃ KHỞI ĐỘNG THÀNH CÔNG!
+   URL: http://localhost:5000
    ```
 
 2. **Kiểm tra MongoDB có đang chạy:**
@@ -293,9 +293,9 @@ npm test        # Run tests
 
 6. **Xem trạng thái hệ thống:**
    - Trên trang login, phần "Trạng thái hệ thống" sẽ hiển thị:
-     - ✅ **Hoạt động** (xanh) - Server đang chạy
-     - ❌ **Không hoạt động** (đỏ) - Server không kết nối được
-     - ⏳ **Đang kiểm tra...** (vàng) - Đang kiểm tra kết nối
+     - **Hoạt động** (xanh) - Server đang chạy
+     - **Không hoạt động** (đỏ) - Server không kết nối được
+     - **Đang kiểm tra...** (vàng) - Đang kiểm tra kết nối
 
 ### Lỗi: "MongoDB connection failed"
 
@@ -311,7 +311,7 @@ npm test        # Run tests
 2. Xóa localStorage trong browser (F12 > Application > Local Storage > Clear)
 3. Kiểm tra `JWT_SECRET` trong backend `.env`
 
-## 📝 Notes
+## Notes
 
 - Đảm bảo MongoDB đã được cài đặt và chạy
 - MQTT broker (mosquitto) là optional, chỉ cần nếu có IoT devices
@@ -319,13 +319,13 @@ npm test        # Run tests
 - CORS được cấu hình cho development, cần điều chỉnh cho production
 - **Quan trọng:** Backend server phải chạy trước khi frontend có thể đăng nhập
 
-## 📖 Documentation
+## Documentation
 
 Xem thêm chi tiết trong các thư mục:
 - `Documentations/` - Tài liệu chi tiết cho từng giai đoạn
 - `PROJECT_SUMMARY.md` - Tổng quan dự án
 
-## 🎉 Hoàn thành!
+## Hoàn thành!
 
 Website đã sẵn sàng để sử dụng với đầy đủ tính năng từ authentication đến real-time data streaming!
 
